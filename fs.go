@@ -77,7 +77,7 @@ func ValidPath(name string) bool {
 // A file may implement additional interfaces, such as
 // ReadDirFile, ReaderAt, or Seeker, to provide additional or optimized functionality.
 type File interface {
-	Stat() (FileInfo, error)
+	Stat() (os.FileInfo, error)
 	Read([]byte) (int, error)
 	Close() error
 }
@@ -95,7 +95,7 @@ type DirEntry interface {
 
 	// Type returns the type bits for the entry.
 	// The type bits are a subset of the usual FileMode bits, those returned by the FileMode.Type method.
-	Type() FileMode
+	Type() os.FileMode
 
 	// Info returns the FileInfo for the file or subdirectory described by the entry.
 	// The returned FileInfo may be from the time of the original directory read
@@ -103,7 +103,7 @@ type DirEntry interface {
 	// since the directory read, Info may return an error satisfying errors.Is(err, ErrNotExist).
 	// If the entry denotes a symbolic link, Info reports the information about the link itself,
 	// not the link's target.
-	Info() (FileInfo, error)
+	Info() (os.FileInfo, error)
 }
 
 // A ReadDirFile is a directory file whose entries can be read with the ReadDir method.

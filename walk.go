@@ -6,6 +6,7 @@ package fs
 
 import (
 	"errors"
+	"os"
 	"path"
 )
 
@@ -121,7 +122,7 @@ type statDirEntry struct {
 	info FileInfo
 }
 
-func (d *statDirEntry) Name() string            { return d.info.Name() }
-func (d *statDirEntry) IsDir() bool             { return d.info.IsDir() }
-func (d *statDirEntry) Type() FileMode          { return FileMode(d.info.Mode()).Type() }
-func (d *statDirEntry) Info() (FileInfo, error) { return d.info, nil }
+func (d *statDirEntry) Name() string               { return d.info.Name() }
+func (d *statDirEntry) IsDir() bool                { return d.info.IsDir() }
+func (d *statDirEntry) Type() os.FileMode          { return os.FileMode(FileMode(d.info.Mode()).Type()) }
+func (d *statDirEntry) Info() (os.FileInfo, error) { return d.info, nil }
