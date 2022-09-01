@@ -6,6 +6,7 @@ package fs
 
 import (
 	"errors"
+	"os"
 	"sort"
 )
 
@@ -44,4 +45,34 @@ func ReadDir(fsys FS, name string) ([]DirEntry, error) {
 	list, err := dir.ReadDir(-1)
 	sort.Slice(list, func(i, j int) bool { return list[i].Name() < list[j].Name() })
 	return list, err
+}
+
+// dirInfo is a DirEntry based on a FileInfo.
+type dirInfo struct {
+	fileInfo FileInfo
+}
+
+func (di dirInfo) IsDir() bool {
+	return di.fileInfo.IsDir()
+}
+
+func (di dirInfo) Type() os.FileMode {
+	return os.FileMode(FileMode(di.fileInfo.Mode()).Type())
+}
+
+func (di dirInfo) Info() (os.FileInfo, error) {
+	return di.fileInfo, nil
+}
+
+func (di dirInfo) Name() string {
+	return di.fileInfo.Name()
+}
+
+// FileInfoToDirEntry returns a DirEntry that returns information from info.
+// If info is nil, FileInfoToDirEntry returns nil.
+func FileInfoToDirEntry(info FileInfo) DirEntry {
+	if info == nil {
+		return nil
+	}
+	return dirInfo{fileInfo: info}
 }
