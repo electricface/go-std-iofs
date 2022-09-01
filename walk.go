@@ -123,5 +123,5 @@ type statDirEntry struct {
 
 func (d *statDirEntry) Name() string            { return d.info.Name() }
 func (d *statDirEntry) IsDir() bool             { return d.info.IsDir() }
-func (d *statDirEntry) Type() FileMode          { return d.info.Mode().Type() }
+func (d *statDirEntry) Type() FileMode          { return FileMode(d.info.Mode()).Type() }
 func (d *statDirEntry) Info() (FileInfo, error) { return d.info, nil }

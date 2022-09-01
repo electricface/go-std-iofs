@@ -157,7 +157,7 @@ func errClosed() error     { return os.ErrClosed }
 type FileInfo interface {
 	Name() string       // base name of the file
 	Size() int64        // length in bytes for regular files; system-dependent for others
-	Mode() FileMode     // file mode bits
+	Mode() os.FileMode  // file mode bits
 	ModTime() time.Time // modification time
 	IsDir() bool        // abbreviation for Mode().IsDir()
 	Sys() interface{}   // underlying data source (can return nil)
@@ -168,7 +168,7 @@ type FileInfo interface {
 // information about files can be moved from one system
 // to another portably. Not all bits apply to all systems.
 // The only required bit is ModeDir for directories.
-type FileMode uint32
+type FileMode os.FileMode
 
 // The defined file mode bits are the most significant bits of the FileMode.
 // The nine least-significant bits are the standard Unix rwxrwxrwx permissions.
